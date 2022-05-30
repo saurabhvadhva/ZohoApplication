@@ -7,6 +7,8 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="@color/white">
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -37,7 +39,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edt_search_view"
             tools:listitem="@layout/item_list_users" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

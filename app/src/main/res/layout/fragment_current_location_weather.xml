@@ -22,134 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_user"
-                android:layout_width="@dimen/size_100"
-                android:layout_height="@dimen/size_100"
-                android:elevation="@dimen/margin_4"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_name_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_12"
-                android:fontFamily="@font/poppins"
-                android:text="@string/name"
-                android:textColor="@color/colorMenuGrey"
-                android:textSize="@dimen/text_size_14"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_user" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="@string/name"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_name_title" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_email_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:fontFamily="@font/poppins"
-                android:text="@string/email"
-                android:textColor="@color/colorMenuGrey"
-                android:textSize="@dimen/text_size_14"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_name" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="@string/email"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_email_title" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_phone_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:fontFamily="@font/poppins"
-                android:text="@string/phone"
-                android:textColor="@color/colorMenuGrey"
-                android:textSize="@dimen/text_size_14"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_email" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="@string/phone"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_phone_title" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_gender_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:fontFamily="@font/poppins"
-                android:text="@string/gender"
-                android:textColor="@color/colorMenuGrey"
-                android:textSize="@dimen/text_size_14"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_gender"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:text="@string/gender"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_gender_title" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_weather_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_16"
-                android:fontFamily="@font/poppins"
-                android:text="@string/weather_forecast"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_size_18"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_gender" />
-
             <LinearLayout
                 android:id="@+id/parent_temp"
                 android:layout_width="match_parent"
@@ -161,7 +33,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_weather_title">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_temp"

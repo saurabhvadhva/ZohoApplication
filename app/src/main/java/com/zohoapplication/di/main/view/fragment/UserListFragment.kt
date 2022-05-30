@@ -1,6 +1,8 @@
 package com.zohoapplication.di.main.view.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -30,12 +32,8 @@ class UserListFragment : Fragment() {
     private lateinit var mAdapter: UsersAdapter
     private lateinit var mBinding: FragmentUserListBinding
     var mResult = 25
-    var loadmore = false
-    val mNetworkHelper : NetworkHelper by inject<NetworkHelper>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    var mLoadMore = false
+    val mNetworkHelper: NetworkHelper by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,11 +46,9 @@ class UserListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        setupObserver()
         mResult = 25
-        mMainViewModel.getRandomUsers(mResult)
+        setupObserver()
         initListeners()
-
     }
 
     private fun initListeners() {
@@ -76,29 +72,40 @@ class UserListFragment : Fragment() {
             response?.let {
                 when (response.status) {
                     Status.SUCCESS -> {
-                        Utility.hideProgessDialog(requireContext())
+                        Utility.hideProgressDialog()
                         if (mResult == 25) {
                             mResult += 25
-                            loadmore = true
-                            response.data?.let { mAdapter.setItems(it) }
+                            mLoadMore = true
+                            response.data?.let { mAdapter.setItems(it)}
                         } else {
                             mResult += 25
-                            loadmore = true
-                            response.data?.let { mAdapter.addItems(it) }
+                            mLoadMore = true
+                            response.data?.let { mAdapter.setItems(it)}
                         }
-                        mMainViewModel._userList.postValue(null)
+
                     }
                     Status.LOADING -> {
-                        Utility.showProgessDialog(
+                        Utility.showProgressDialog(
                             requireContext(),
                             getString(R.string.please_wait)
                         )
                     }
                     Status.ERROR -> {
                         //Handle Error
-                        Utility.hideProgessDialog(requireContext())
+                        Utility.hideProgressDialog()
                         Toast.makeText(requireContext(), response.message, Toast.LENGTH_LONG).show()
                     }
+
+                    Status.NO_CONNECTION -> {
+                        //Handle No connection
+                        Utility.hideProgressDialog()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.no_internet_connection),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
                 }
             }
         }
@@ -109,6 +116,7 @@ class UserListFragment : Fragment() {
             val layoutManager = LinearLayoutManager(requireContext())
             recyclerView.layoutManager = layoutManager
             mAdapter = UsersAdapter {
+                mBinding.edtSearchView.setText("")
                 val userItem = it.tag as UserItem
                 val bundle = Bundle().apply { putParcelable(Constants.DATA, userItem) }
                 findNavController().navigate(R.id.userDetailsFragment, bundle)
@@ -119,21 +127,15 @@ class UserListFragment : Fragment() {
                     super.onScrolled(recyclerView, dx, dy)
                     val lastVisiblePosition: Int = layoutManager.findLastVisibleItemPosition()
                     if (lastVisiblePosition == mAdapter.itemCount - 1) {
-                        if (loadmore && mBinding.edtSearchView.text.toString().trim().isEmpty()
-                            && mNetworkHelper.isNetworkConnected()) {
-                            loadmore = false
+                        if (mLoadMore && mBinding.edtSearchView.text.toString().trim().isEmpty()
+                            && mNetworkHelper.isNetworkConnected()
+                        ) {
+                            mLoadMore = false
                             mMainViewModel.getRandomUsers(mResult)
                         }
                     }
                 }
             })
-
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            UserListFragment()
     }
 }

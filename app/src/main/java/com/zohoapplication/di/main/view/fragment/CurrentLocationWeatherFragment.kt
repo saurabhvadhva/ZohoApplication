@@ -7,73 +7,41 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.zohoapplication.R
-import com.zohoapplication.data.model.UserItem
-import com.zohoapplication.databinding.FragmentUserDetailsBinding
+import com.zohoapplication.databinding.FragmentCurrentLocationWeatherBinding
 import com.zohoapplication.di.main.viewmodel.MainViewModel
 import com.zohoapplication.utits.Constants
 import com.zohoapplication.utits.Status
 import com.zohoapplication.utits.Utility
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.lang.StringBuilder
 
 
-class UserDetailsFragment : Fragment() {
+class CurrentLocationWeatherFragment : Fragment() {
 
-    private lateinit var mBinding : FragmentUserDetailsBinding
-    var mUserItem : UserItem? = null
+    private lateinit var mBinding: FragmentCurrentLocationWeatherBinding
 
     private val mMainViewModel : MainViewModel by viewModel()
+    private val mLocality by lazy {
+        arguments?.getString(Constants.DATA)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            mUserItem = it.getParcelable(Constants.DATA)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = FragmentUserDetailsBinding.inflate(inflater)
+        mBinding = FragmentCurrentLocationWeatherBinding.inflate(inflater)
         return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObserver()
-        setDetails(mUserItem)
-    }
-
-    private fun setDetails(userItem: UserItem?) {
-        userItem?.let { localUserItem ->
-            localUserItem.nameItem?.let {
-                val name = StringBuilder()
-                it.title.let {
-                    name.append(it).append(" ")
-                }
-                it.first.let {
-                    name.append(it).append(" ")
-                }
-                it.last.let {
-                    name.append(it).append(" ")
-                }
-                mBinding.txtName.text = name.toString().trim().ifEmpty { "-" }
-            }
-            mBinding.txtEmail.text = localUserItem.email?:"-"
-            mBinding.txtPhone.text = localUserItem.phone?:"-"
-            mBinding.txtGender.text = localUserItem.gender?:"-"
-            Glide.with(mBinding.imgUser.context)
-                .load(localUserItem.pictureItem?.large?:"")
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .into(mBinding.imgUser)
-
-            mBinding.txtCity.text = localUserItem.locationItem?.city?:"-"
-            mMainViewModel.getWeather(Constants.KEY,localUserItem.locationItem?.city)
-        }
+        mMainViewModel.getWeather(Constants.KEY, mLocality)
+        mBinding.txtCity.text = mLocality?:"-"
     }
 
     @SuppressLint("SetTextI18n")
@@ -106,7 +74,11 @@ class UserDetailsFragment : Fragment() {
                 Status.NO_CONNECTION -> {
                     //Handle No connection
                     Utility.hideProgressDialog()
-                    Toast.makeText(requireContext(), getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.no_internet_connection),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

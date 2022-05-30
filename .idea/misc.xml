@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Saurabh/Workspace/Projects/ZohoApplication/app/src/main/res/layout/activity_dashboard.xml" value="0.2675925925925926" />
+        <entry key="..\:/Saurabh/Workspace/Projects/ZohoApplication/app/src/main/res/layout/fragment_current_location_weather.xml" value="0.25885416666666666" />
+        <entry key="..\:/Saurabh/Workspace/Projects/ZohoApplication/app/src/main/res/layout/fragment_user_details.xml" value="0.2675925925925926" />
+        <entry key="..\:/Saurabh/Workspace/Projects/ZohoApplication/app/src/main/res/layout/fragment_user_list.xml" value="0.2675925925925926" />
+        <entry key="..\:/Saurabh/Workspace/Projects/ZohoApplication/app/src/main/res/layout/toolbar.xml" value="0.1" />
+        <entry key="..\:/Saurabh/Workspace/Projects/ZohoApplication/app/src/main/res/layout/view_no_data_found.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_back.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/back_button_selector.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/button_selector.xml" value="0.162" />

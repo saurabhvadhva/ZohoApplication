@@ -1,31 +1,23 @@
 <resources>
-    <string name="app_name">ZohoApplication</string>
-    <string name="press_again_to_exit">Press again to exit</string>
+    <string name="app_name">Zoho Application</string>
     <string name="please_wait">Please wait…</string>
+    <string name="no_internet_connection">No internet connection</string>
     <string name="search">Search</string>
-    <string name="no_data_for_search">No data for search!</string>
+    <string name="no_data_found">No data found</string>
     <string name="users">Users</string>
-    <string name="phase_1">Phase\n1</string>
-    <string name="phase_2">Phase\n2</string>
-    <string name="please_select_the_phase_which_you_want_to_check">Please select the phase which you want to check</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="gender">Gender</string>
-    <string name="gps_enabled">Gps enabled</string>
-    <string name="gps_not_enabled">Gps not enabled</string>
-    <string name="gps_not_available">Gps not available</string>
-    <string name="get_location">Getting Current Location…</string>
-    <string name="today">Today</string>
-    <string name="sunny">Sunny</string>
-    <string name="_25_40">25/40</string>
-    <string name="weather_forcast">Weather forcast</string>
+
+    <!-- weather -->
     <string name="wind">Wind</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
     <string name="visibility">Visibility</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_details">User details</string>
-
+    <string name="weather_forecast">Weather forecast</string>
+    <string name="please_turn_on_location">Please turn on location</string>
+    <string name="random_user_url">https://randomuser.me/</string>
+    <string name="weather_url">http://api.weatherstack.com/</string>
 </resources>

@@ -15,15 +15,18 @@ import java.util.*
 
 class UsersAdapter(
     val onClickListener: View.OnClickListener
-) : RecyclerView.Adapter<UsersAdapter.ViewHolder>(),Filterable {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
-    private var mList: ArrayList<UserItem> = ArrayList()
-    private var mOriginalList: ArrayList<UserItem> = ArrayList()
+    private var mList: ArrayList<UserItem?> = ArrayList()
+    private var mOriginalList: ArrayList<UserItem?> = ArrayList()
+
+    val ITEM_VIEW = 1
+    val ITEM_NO_DATA_VIEW = 2
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(userItem: UserItem, onClickListener: View.OnClickListener) {
+        fun bind(userItem: UserItem?, onClickListener: View.OnClickListener) {
             itemView.tag = userItem
-            userItem.nameItem?.let {
+            userItem?.nameItem?.let {
                 val name = StringBuilder()
                 it.title.let {
                     name.append(it).append(" ")
@@ -36,9 +39,9 @@ class UsersAdapter(
                 }
                 itemView.txt_name.text = name.toString().trim().ifEmpty { "-" }
             }
-            itemView.txt_email.text = userItem.email?:"-"
+            itemView.txt_email.text = userItem?.email ?: "-"
             Glide.with(itemView.img_user.context)
-                .load(userItem.pictureItem?.thumbnail?:"")
+                .load(userItem?.pictureItem?.thumbnail ?: "")
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(itemView.img_user)
@@ -48,18 +51,43 @@ class UsersAdapter(
         }
     }
 
+    class NoDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind() {}
+    }
+
+
+    override fun getItemViewType(position: Int): Int {
+        return if (mList[position] != null)
+            ITEM_VIEW
+        else
+            ITEM_NO_DATA_VIEW
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_list_users, parent,
-                false
+        if (viewType == ITEM_VIEW) {
+            ViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_list_users, parent,
+                    false
+                )
             )
-        )
+        } else {
+            NoDataViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.view_no_data_found, parent,
+                    false
+                )
+            )
+        }
 
     override fun getItemCount(): Int = mList.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.bind(mList[position], onClickListener)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+        if (holder is ViewHolder) {
+            holder.bind(mList[position], onClickListener)
+        } else {
+            (holder as NoDataViewHolder).bind()
+        }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(list: List<UserItem>) {
@@ -78,27 +106,29 @@ class UsersAdapter(
     }
 
     override fun getFilter(): Filter {
-        return object : Filter(){
+        return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filteredList: ArrayList<UserItem> = ArrayList()
+                val filteredList: ArrayList<UserItem?> = ArrayList()
                 if (constraint == null || constraint.isEmpty()) {
                     filteredList.addAll(mOriginalList)
                 } else {
-                    val filterPattern: String = constraint.toString().lowercase(Locale.getDefault()).trim()
+                    val filterPattern: String =
+                        constraint.toString().lowercase(Locale.getDefault()).trim()
                     for (item in mOriginalList) {
                         val name = StringBuilder()
-                        item.nameItem?.title?.let {
+                        item?.nameItem?.title?.let {
                             name.append(it.lowercase(Locale.getDefault())).append(" ")
                         }
-                        item.nameItem?.first?.let {
+                        item?.nameItem?.first?.let {
                             name.append(it.lowercase(Locale.getDefault())).append(" ")
                         }
-                        item.nameItem?.last?.let {
+                        item?.nameItem?.last?.let {
                             name.append(it.lowercase(Locale.getDefault())).append(" ")
                         }
-                        val email = item.email?.lowercase(Locale.getDefault())
+                        val email = item?.email?.lowercase(Locale.getDefault())
                         if (name.toString().trim().contains(filterPattern)
-                            || email?.contains(filterPattern) == true) {
+                            || email?.contains(filterPattern) == true
+                        ) {
                             filteredList.add(item)
                         }
                     }
@@ -111,6 +141,8 @@ class UsersAdapter(
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 mList.clear()
                 mList.addAll(results?.values as List<UserItem>)
+                if (mList.isEmpty())
+                    mList.add(null)
                 notifyDataSetChanged()
             }
         }

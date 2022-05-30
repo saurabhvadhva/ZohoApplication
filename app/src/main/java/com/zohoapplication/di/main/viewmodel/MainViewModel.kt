@@ -1,5 +1,6 @@
 package com.zohoapplication.di.main.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,10 @@ class MainViewModel(
     private val mainRepository: MainRepository,
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
+
+    init {
+        getRandomUsers(25)
+    }
 
     val _userList = MutableLiveData<Resource<List<UserItem>>>()
     val userList: LiveData<Resource<List<UserItem>>>
@@ -57,7 +62,7 @@ class MainViewModel(
                 if(list.isNotEmpty()) {
                     _userList.postValue(Resource.success(list))
                 } else
-                    _userList.postValue(Resource.error("No internet connection", null))
+                    _userList.postValue(Resource.noInternet())
             }
         }
     }
@@ -78,7 +83,7 @@ class MainViewModel(
                     )
                 }
             } else {
-                _currentWeatherDetail.postValue(Resource.error("No internet connection", null))
+                _currentWeatherDetail.postValue(Resource.noInternet())
             }
         }
     }
